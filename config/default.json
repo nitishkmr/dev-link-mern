@@ -1,0 +1,3 @@
+{
+    "mongoURI": "mongodb+srv://nitishkmr:Nitish1211@cluster0.1pshk.mongodb.net/DevDB?retryWrites=true&w=majority?authSource=yourDB&w=1"
+}
