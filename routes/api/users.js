@@ -1,11 +1,11 @@
 // for registering users
 const express = require('express');
-const { check, validationResult } = require('express-validator/check');  //used to check or validate proper email/pass etc
 const User = require('../../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const { check, validationResult } = require('express-validator/check');  //used to check or validate proper email/pass etc
 
 
 const router = express.Router();    //Router class can be used to create modular mountable route handlers. A Router instance is a complete middleware and routing system; for this reason it is often referred to as a “mini-app”.
@@ -76,6 +76,6 @@ router.post('/',
             console.error(err.message);
             res.status(500).send('Server error');
         }
-    })
+    });
 
 module.exports = router;

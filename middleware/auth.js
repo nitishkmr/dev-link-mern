@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
     //Check if no token
     // (if the route is protected and is using this middleware)
     if (!token) {
-        return res.status(401).json({ msg: 'No token, authorization denied' });
+        return res.status(401).json({ msg: 'No token, authorization denied' });     //.json => the o/p will be in json format which is mostly the case with APIs as their response
     }
 
     //If token is there, verify
