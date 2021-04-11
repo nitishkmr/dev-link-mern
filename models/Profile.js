@@ -24,7 +24,7 @@ const ProfileSchema = new mongoose.Schema({
     githubusername: {
         type: String
     },
-    experience: [
+    experience: [                   // there can be multiple experience related to a user. Therefore, an array
         {
             title: {
                 type: String,

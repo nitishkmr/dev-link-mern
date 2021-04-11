@@ -123,8 +123,6 @@ router.get('/', async (req, res) => {
         //     "name": "Nitish",
         //     "avatar": "//www.gravatar.com/avatar/4adcca49b3b1e5a08ac202f5d5a9e688?s=200&r=pg&d=mm"
         // },
-
-
         res.json(profiles);
     } catch (error) {
         console.error(error.message);
@@ -172,5 +170,76 @@ router.delete('/', auth, async (req, res) => {
     }
 });
 
+
+// Experience -> can be multiple experience, so it's created as an array in Profile Model
+
+// @route   PUT api/profile/experience
+// @desc    Add profile experience
+// @access  Private - token will be required (private and protected route)
+
+router.put('/experience',
+    [
+        auth,
+        [
+            check('title', 'Title is required')
+                .not().isEmpty(),
+            check('company', 'Company is required')
+                .not().isEmpty(),
+            check('from', 'From date is required')
+                .not().isEmpty(),
+        ]
+    ],
+    async (req, res) => {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { title, company, location, from, to, current, description } = req.body;
+
+        const newExp = {
+            title,          // same as title: title
+            company,
+            location,
+            from,
+            to,
+            current,
+            description
+        };
+
+        //Now connect to DB
+        try {
+            const profile = await Profile.findOne({ user: req.user.id });
+            profile.experience.unshift(newExp);     //same as profile.experience.push(newExp).. 
+            // just this one pushes from the start so the latest ones are at the top
+            await profile.save();
+            res.json(profile);
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server Error');
+        }
+
+    });
+
+
+// @route   DELETE (could've been PUT also) api/profile/experience/:exp_id
+// @desc    Delete experience from a profile
+// @access  Private - token will be required (private and protected route)
+
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.user.id});
+        
+        //Get the index of the exp to be removed
+        const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
+
+        profile.experience.splice(removeIndex, 1);
+        await profile.save();
+        res.json(profile);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server Error")
+    }
+});
 
 module.exports = router;
