@@ -68,7 +68,7 @@ router.post('/',
                 { expiresIn: 36000 },
                 (err, token) => {
                     if (err) throw err;
-                    res.json({ token });
+                    res.json({ token });        // the newly created token will be sent back as a response
                 }
             );  //now that the token will be created, we have to send it to access the protected routes, middleware will do it
 

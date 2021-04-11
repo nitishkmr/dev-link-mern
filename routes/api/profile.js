@@ -15,6 +15,8 @@ router.get('/me', auth, async (req, res) => {
         const profile = await Profile                        //  'user' is from the Schema from Profile model and corresponds to the ObjectID
             .findOne({ user: req.user.id })                  //  'req.user.id' is from the token being sent / auth on this route
             .populate('user', ['name', 'avatar']);           // here user, name, avatar came from users.js in models
+        // ****more about populate later in this file
+
         if (!profile) {
             return res.status(400).json({ msg: 'There is no profile for this user' });
         }
@@ -87,7 +89,7 @@ router.post('/',
 
             if (profile) {
                 //Update if profile exists
-                profile = await Profile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields}, {new: true});   
+                profile = await Profile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields }, { new: true });
                 return res.json(profile);
             };
 
@@ -96,13 +98,79 @@ router.post('/',
 
             await profile.save();
             res.json(profile);
-            
+
         } catch (error) {
             console.error(error.message);
             res.status(500).send("Server Error");
         }
     }
 );
+
+
+// @route   GET api/profile
+// @desc    Get all the profiles
+// @access  Public
+router.get('/', async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+        //.find() will send all the profiles and there will be a 'user' field as defined in Profile Schema 
+        // but it will contain like this "user": "6071ee918bd86b31f8102143" as user is defined with ObjectID in the Profile Schema
+
+        //.populate('user') uses the ref: 'user' defined in Profile model, and the ['name', 'avatar'] will ensure that
+        // only name and avatar is sent back in user: {} so now 
+        // "user": {
+        //     "_id": "6071ee918bd86b31f8102143",
+        //     "name": "Nitish",
+        //     "avatar": "//www.gravatar.com/avatar/4adcca49b3b1e5a08ac202f5d5a9e688?s=200&r=pg&d=mm"
+        // },
+
+
+        res.json(profiles);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+
+// @route   GET api/profile/user/:user_id
+// @desc    Get profile by user ID
+// @access  Public
+router.get('/user/:user_id', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);
+
+        if (!profile) return res.status(400).json({ msg: 'Profile not found' });
+
+        res.json(profile);
+    } catch (error) {
+        // console.error(error.message);
+        if (error.kind == 'ObjectId') {
+            return res.status(400).json({ msg: 'Profile not found' });
+        }
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   DELETE api/profile
+// @desc    Delete profile, user and posts
+// @access  Private - token will be required (private and protected route)
+router.delete('/', auth, async (req, res) => {
+    try {
+        // token will have the user's _id
+        // Remove profile
+        await Profile.findOneAndRemove({ user: req.user.id });
+        // Remove user
+        await User.findOneAndRemove({ _id: req.user.id });
+        res.json({ msg: 'User deleted' });
+    } catch (error) {
+        console.error(error.message);
+        if (error.kind == 'ObjectId') {
+            return res.status(400).json({ msg: 'Profile not found' });
+        }
+        res.status(500).send('Server Error');
+    }
+});
 
 
 module.exports = router;
