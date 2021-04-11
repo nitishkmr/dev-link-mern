@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const ProfileSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,   // as we want it to be linked somehow to user model so _id is used
-        ref: 'user'
+        ref: 'user'             // The ref option is what tells Mongoose which model to use during population or from where to take the ObjectID
     },
     company: {
         type: String

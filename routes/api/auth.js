@@ -6,7 +6,7 @@ const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const bcrypt = require('bcryptjs');
-const { check, validationResult } = require('express-validator/check');  //used to check or validate proper email/pass etc
+const { check, validationResult } = require('express-validator');  //used to check or validate proper email/pass etc
 
 
 

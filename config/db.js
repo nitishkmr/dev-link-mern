@@ -5,10 +5,13 @@ const db = config.get('mongoURI');
 const connectDB = async () => {
     try {
         await mongoose.connect(db, {
-            seNewUrlParser: true
+            useFindAndModify: false,
+            useUnifiedTopology: true,
+            useNewUrlParser: true,
+            useCreateIndex: true
         });     //will wait for connection (async function always return a promise)
         console.log('MongoDB connected...');
-    } catch (err){
+    } catch (err) {
         console.error(err.message);
         //Exit process on failure
         process.exit(1);
