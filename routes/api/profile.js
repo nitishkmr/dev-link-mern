@@ -114,7 +114,7 @@ router.post('/',
 // @access  Public
 router.get('/', async (req, res) => {
     try {
-        const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+        const profiles = await Profile.find().populate('user', ['name', 'avatar', 'email']);
         //.find() will send all the profiles and there will be a 'user' field as defined in Profile Schema 
         // but it will contain like this "user": "6071ee918bd86b31f8102143" as user is defined with ObjectID in the Profile Schema
 
