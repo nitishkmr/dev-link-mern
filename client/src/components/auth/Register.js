@@ -1,8 +1,17 @@
 import React, { Fragment, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import { Link } from 'react-router-dom';
+// To connect to redux
+import {connect} from 'react-redux';
+import { PropTypes } from "prop-types";
+import { useDispatch } from "react-redux";          
+import { setAlert } from '../../actions/alert';
 
-const Register = () => {
 
+const Register = (props) => {
+    
+    const dispatch = useDispatch();                 //now we can use dispatch to dispatch actions
+    
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -16,6 +25,7 @@ const Register = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }  //spread op + e.target = 'name' if onChange called from Name, 'email' if from email input and so on
 
+   /* This code was working fine with the backened, commented since it has to be used with Redux
     async function onSubmit(e) {
         //connecting to backened and there async-await is being used
         // header, body of the login details will be created in this function and send to backend at /api/users.js
@@ -30,7 +40,6 @@ const Register = () => {
                 email,
                 password
             }
-
             try {
                 const config = {
                     headers: {
@@ -43,6 +52,15 @@ const Register = () => {
             } catch (err) {
                 console.error(err.response.data);
             }
+        }
+    }*/
+
+    async function onSubmit(e){
+        e.preventDefault();
+        if(password !== password2){
+            dispatch(setAlert('Passwords do not match', 'danger')); //will ensure the that the action is being dispatched to the reducer.
+        }else{
+            console.log('SUCCESS');
         }
     }
 
@@ -93,10 +111,14 @@ const Register = () => {
                 <input type="submit" className="btn btn-primary" value="Register" />
             </form>
             <p className="my-1">
-                Already have an account? <a href="login.html">Sign In</a>
+                Already have an account? <Link to="/login">Sign In</Link>
             </p>
         </Fragment>
     )
-}
+};
 
-export default Register;
+// Register.propTypes ={
+//     setAlert: PropTypes.func.isRequired
+// }
+
+export default (Register);

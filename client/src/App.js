@@ -5,6 +5,10 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Alert from './components/layout/alert';
+//Redux
+import { Provider } from 'react-redux';   // to connect redux and react
+import store from './store';
 
 // Today, popularized by modern frontend JavaScript frameworks like React, an app is usually built as a single page application: 
 // you only load the application code (HTML, CSS, JavaScript) once, and when you interact with the application, 
@@ -15,19 +19,21 @@ import Login from './components/auth/Login';
 
 const App = () => {
   return (
-
-    <Router>
-      <Fragment>
-        <Navbar />
-        <Route exact path='/' component={Landing} />
-        <section className="container">
-          <Switch>
-            <Route exact path='/register' component={Register} />   {/*exact can be used with Switch also*/}
-            <Route exact path='/login' component={Login} />
-          </Switch>
-        </section>
-      </Fragment>
-    </Router> 
+    <Provider store={store}>    {/* since everything is inside Provider => every component has access to the store */}
+      <Router>
+        <Fragment>
+          <Navbar />
+          <Route exact path='/' component={Landing} />
+          <section className="container">
+            <Alert />
+            <Switch>    {/* Switch can only have <Route> */}
+              <Route exact path='/register' component={Register} />   {/*exact can be used with Switch also*/}
+              <Route exact path='/login' component={Login} />
+            </Switch>
+          </section>
+        </Fragment>
+      </Router>
+    </Provider>
   );
 };
 
