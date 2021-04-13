@@ -1,4 +1,5 @@
 import { SET_ALERT, REMOVE_ALERT } from '../actions/types'
+
 const initialState = [
     //subs states will be like this, but initial state is empty
     // {
@@ -8,7 +9,7 @@ const initialState = [
     // }
 ];
 
-export default function (state = initialState, action) {
+function alertReducer(state = initialState, action) {
     switch (action.type) {
         case SET_ALERT:
             return [...state, action.payload];
@@ -19,4 +20,7 @@ export default function (state = initialState, action) {
         default:
             return state;
     }
-}
+};
+
+
+export default alertReducer;

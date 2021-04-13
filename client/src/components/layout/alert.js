@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 import { useSelector } from "react-redux";      // useSelector hook to pull the state from the Redux store
 
 
 const Alert = () => {
     const alerts = useSelector((state) => state.alert);
-    console.log(alerts);
+    // console.log(alerts);
     return(
         alerts !== null && alerts.length > 0 && alerts.map((alert) => (
-            <div key={alert.id} className={`alert alert-${alert.alertType}`}>
+            <div key={alert.id} className={`alert alert-${alert.alertType} fadeIn`}>
                 {alert.msg}
             </div>
         ))

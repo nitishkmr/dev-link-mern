@@ -2,13 +2,14 @@ import React, { Fragment, useState } from 'react';
 // import axios from 'axios';
 import { Link } from 'react-router-dom';
 // To connect to redux
-import {connect} from 'react-redux';
-import { PropTypes } from "prop-types";
+// import {connect} from 'react-redux';
+// import { PropTypes } from "prop-types";
 import { useDispatch } from "react-redux";          
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
 
 
-const Register = (props) => {
+const Register = () => {
     
     const dispatch = useDispatch();                 //now we can use dispatch to dispatch actions
     
@@ -60,7 +61,7 @@ const Register = (props) => {
         if(password !== password2){
             dispatch(setAlert('Passwords do not match', 'danger')); //will ensure the that the action is being dispatched to the reducer.
         }else{
-            console.log('SUCCESS');
+            dispatch(register({name, email, password}));      //extracted from the formData component state
         }
     }
 
@@ -75,7 +76,7 @@ const Register = (props) => {
                         name="name"
                         value={name}
                         onChange={onChange}
-                        required />
+                        />
                 </div>
                 <div className="form-group">
                     <input type="email"
