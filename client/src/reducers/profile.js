@@ -3,7 +3,7 @@ import {
     GET_PROFILE,
     PROFILE_ERROR,
     CLEAR_PROFILE,
-    // UPDATE_PROFILE,
+    UPDATE_PROFILE,
     // GET_PROFILES,
     // GET_REPOS,
     // NO_REPOS
@@ -17,9 +17,11 @@ const initialState = {
     error: {}
 }
 
-function profileReducer (state = initialState, action) {
+function profileReducer(state = initialState, action) {
     switch (action.type) {
         case GET_PROFILE:
+        case UPDATE_PROFILE:    // #### since the profile would've been changed in the backend when we made
+                                // made the axios req in action, here reducer will change the store on the client side acc.
             return {
                 ...state,
                 profile: action.payload,
