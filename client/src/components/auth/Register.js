@@ -26,36 +26,6 @@ const Register = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }  //spread op + e.target = 'name' if onChange called from Name, 'email' if from email input and so on
 
-   /* This code was working fine with the backened, commented since it has to be used with Redux
-    async function onSubmit(e) {
-        //connecting to backened and there async-await is being used
-        // header, body of the login details will be created in this function and send to backend at /api/users.js
-        // -as a post request, there the .post() requires name, email and password 
-        // axios will make a post request and in response returns a promise with the "TOKEN-JWT"
-        e.preventDefault();
-        if (password !== password2) {
-            console.log('Passwords do not match');
-        } else {
-            const newUser = {
-                name,
-                email,
-                password
-            }
-            try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-                const body = JSON.stringify(newUser);
-                const res = await axios.post('/api/users', body, config);       // we've used a proxy of localhost so we can directly write /api/users
-                console.log(res.data);
-            } catch (err) {
-                console.error(err.response.data);
-            }
-        }
-    }*/
-
     async function onSubmit(e){
         e.preventDefault();
         if(password !== password2){

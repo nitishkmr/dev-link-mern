@@ -6,6 +6,10 @@ import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/alert';
+import Dashboard from './components/dashboard/Dashboard';
+import PrivateRoute from './components/routing/ProtectedRoutes';
+import CreateProfile from './components/profile-forms/CreateProfile';
+import EditProfile from './components/profile-forms/EditProfile';
 //Redux
 import { Provider } from 'react-redux';   // to connect redux and react
 import store from './store';
@@ -39,6 +43,9 @@ const App = () => {
             <Switch>    {/* Switch can only have <Route> */}
               <Route exact path='/register' component={Register} />   {/*exact can be used with Switch also*/}
               <Route exact path='/login' component={Login} />
+              <PrivateRoute exact path='/dashboard' component={Dashboard} />  {/* to access the route only if logged in */}
+              <PrivateRoute exact path='/create-profile' component={CreateProfile} />
+              <PrivateRoute exact path='/edit-profile' component={EditProfile} />
             </Switch>
           </section>
         </Fragment>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';     // for errors like enter name, email etc
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from './types';
+import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, CLEAR_PROFILE } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
 //FOR INFO ABOUT ACTIONS in general, open /actions/alert
@@ -75,14 +75,16 @@ export const login = (email, password) => async dispatch => {
     const body = { email, password };     // and not JSON.stringify({name, email, password})
 
     try {
-        console.log("--------------------------");
+        // console.log("--------------------------");
         const res = await axios.post('/api/auth', body, config);
         // console.log(res.data.token);
+        // console.log(res.data);
         // console.log("--------------------------");
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data
         });
+        dispatch(loadUser());
     } catch (err) {
 
         const errors = err.response.data.errors;       // from the backend, we'll get an array of errors (if any)
@@ -106,7 +108,8 @@ export const login = (email, password) => async dispatch => {
 // }
 
 export function logout() {
-    return function (dispatch) {
-        return dispatch({ type: LOGOUT });
+    return (dispatch) => {
+            dispatch({ type: CLEAR_PROFILE })
+            dispatch({ type: LOGOUT });
     }
 }

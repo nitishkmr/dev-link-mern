@@ -1,7 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';    //to be used in place of anchor tag
+import { useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';    //to be used in place of anchor tag
 
 const Landing = () => {
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    if(isAuthenticated){        // if already logged in and then if clicked on the logo to go to '/'
+                                // then it will route to /dashboard
+        return <Redirect to='/dashboard' />
+    }
     return (
         <section className="landing">
             <div className="dark-overlay">
