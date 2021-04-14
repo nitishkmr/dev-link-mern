@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react';
 // import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 // To connect to redux
 // import {connect} from 'react-redux';
 // import { PropTypes } from "prop-types";
-import { useDispatch } from "react-redux";          
+import { useDispatch, useSelector } from "react-redux";          
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 
@@ -63,6 +63,12 @@ const Register = () => {
         }else{
             dispatch(register({name, email, password}));      //extracted from the formData component state
         }
+    }
+
+    //Redirect if logged in
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    if(isAuthenticated){
+        return <Redirect to='/dashboard' />;
     }
 
     return (

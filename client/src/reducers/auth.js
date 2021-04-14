@@ -1,6 +1,6 @@
 // regarding auth so have to be connected to backend also
 
-import { REGISTER_SUCCESS, REGISTER_FAIL } from '../actions/types';
+import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../actions/types';
 
 const initialState = {
     token: localStorage.getItem('token'),      // to store the token sent from the backend
@@ -10,19 +10,26 @@ const initialState = {
 }
 
 //reducer takes (init state, action that has been dispatched)
-export default function (state = initialState, action) {
+function authReducer(state = initialState, action) {
+    // console.log("REDUCER CALLED")
     switch (action.type) {
+        case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:  // => we get the token back, so want to make user logged in
             localStorage.setItem('token', action.payload.token);
+            // console.log("LOGIN REDUCER CALLED")
             return {
                 ...state,
-                ...payload,
+                ...action.payload,
                 isAuthenticated: true,      // modifying new values for isAuth and loading
                 loading: false
             }
-            break;
+        // break;
 
-        case REGISTER_FAIL:    
+        case REGISTER_FAIL:
+        case AUTH_ERROR:
+        case LOGIN_FAIL:
+        case LOGOUT:
+            // console.log("LOGOUT/REMOVE TOKEN REDUCER CALLED");
             localStorage.removeItem('token');
             return {
                 ...state,
@@ -30,9 +37,20 @@ export default function (state = initialState, action) {
                 isAuthenticated: false,      // modifying new values for isAuth and loading
                 loading: false
             }
-            break;
+        // break;
+
+        case USER_LOADED:
+            return {
+                ...state,
+                isAuthenticated: true,
+                loading: false,
+                user: action.payload
+            }
+        // break;
 
         default: return state;
-            break;
+        // break;
     }
-}
+};
+
+export default authReducer;

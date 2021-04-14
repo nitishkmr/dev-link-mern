@@ -11,18 +11,16 @@ const { check, validationResult } = require('express-validator');  //used to che
 
 
 // @route   GET api/auth
-// @desc    Test Route
-// @access  Public (no need of token to be passed here for auth)
+// @desc    To send back user from the token received
+// @access  Private (token needs to be passed here (auth.js) for auth for a user)
 router.get('/', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');  //password wont be returned in the string
-        res.json(user);
+        res.json(user);         // sends back the corresponding user from the token it received in header (auth.js)
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server Error');
     }
-    
-    res.send('Auth Route')
 });
 
 //whenever want to use the functionality of a middleware, add it as the second parameter
@@ -46,20 +44,17 @@ router.post('/',
 
             let user = await User.findOne({ email: email });
             if (!user) {
-                return
-                res
-                .status(400)
-                .json({ errors: [{ msg: 'Invalid Credentials' }] });
+                return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
             }
 
             const isMatch = await bcrypt.compare(password, user.password)   //password is the plain text pass entered by the user 
-                                                                            //user.password is the encrypted pass requested from the DB (if user exists)
+            //user.password is the encrypted pass requested from the DB (if user exists)
 
-            if(!isMatch){
-                  return res
-                  .status(400)
-                  .json({ errors: [{ msg: 'Invalid Credentials' }] });   
-            }                                                       
+            if (!isMatch) {
+                return res
+                    .status(400)
+                    .json({ errors: [{ msg: 'Invalid Credentials' }] });
+            }
 
             const payload = {
                 user: {
@@ -75,12 +70,13 @@ router.post('/',
                     if (err) throw err;
                     res.json({ token });
                 }
-            ); 
-            
+            );
+
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server error');
         }
-    })
+    }
+);
 
 module.exports = router;

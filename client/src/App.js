@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/layout/Navbar';
@@ -9,6 +9,8 @@ import Alert from './components/layout/alert';
 //Redux
 import { Provider } from 'react-redux';   // to connect redux and react
 import store from './store';
+import { loadUser } from './actions/auth';
+import setAuthToken from './utils/setAuthToken';
 
 // Today, popularized by modern frontend JavaScript frameworks like React, an app is usually built as a single page application: 
 // you only load the application code (HTML, CSS, JavaScript) once, and when you interact with the application, 
@@ -17,7 +19,15 @@ import store from './store';
 // server but the page that the user sees is never completely wiped away, and behaves more like a desktop application.
 
 
+if(localStorage.token){
+  setAuthToken(localStorage.token);
+}
+
 const App = () => {
+  useEffect(() => {   //side effect function which runs the callback function whenever things re-render
+    store.dispatch(loadUser());
+  }, [])
+
   return (
     <Provider store={store}>    {/* since everything is inside Provider => every component has access to the store */}
       <Router>

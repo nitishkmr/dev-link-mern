@@ -1,17 +1,35 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';    //to be used in place of anchor tag
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from '../../actions/auth';
 
 const Navbar = () => {
+
+  const dispatch = useDispatch();                 //now we can use dispatch to dispatch actions 
+  const { isAuthenticated, loading } = useSelector(state => state.auth);    // extract isAuthenticated and loading vars from Global Store 
+
+  const authLinks = (
+    <ul>
+      <li><Link to="#!" onClick={() => dispatch(logout())}> {/* and not onClick={dispatch(logout())} */}
+        <span className='hide-sm'>Logout</span>   {/*this span will allow to hide the text on smaller screens */}
+      </Link></li>
+    </ul>
+  );
+
+  const guestLinks = (
+    <ul>
+      <li><Link to="#!">Developers</Link></li>
+      <li><Link to="/register">Register</Link></li>
+      <li><Link to="/login">Login</Link></li>
+    </ul>
+  );
+
   return (
     <nav className="navbar bg-dark">
       <h1>
         <Link to="/"><i className="fas fa-link"></i> Dev-Link</Link>
       </h1>
-      <ul>
-        <li><Link to="profiles">Developers</Link></li>
-        <li><Link to="/register">Register</Link></li>
-        <li><Link to="/login">Login</Link></li>
-      </ul>
+      { !loading && (<Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>)}
     </nav>
   );
 };
