@@ -2,7 +2,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getCurrentProfile } from '../../actions/profile';
+import { getCurrentProfile, deleteAccount } from '../../actions/profile';
 import Spinner from '../layout/spinner';
 import DashboardActions from './DashboardActions';
 import Experience from './Experience';
@@ -31,6 +31,11 @@ const Dashboard = () => {
                         <DashboardActions />
                         <Experience experience={profile.profile.experience} />
                         <Education education={profile.profile.education} />
+                        <div className="my-2">
+                            <button className="btn btn-danger" onClick={() => dispatch(deleteAccount())}>
+                                <i className="fas fa-user-minus"></i>  Delete My Account
+                            </button>
+                        </div>
                     </Fragment>
                     :
                     <Fragment>
