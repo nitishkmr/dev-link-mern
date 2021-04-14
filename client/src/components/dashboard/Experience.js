@@ -1,9 +1,12 @@
 // to display the list of Exp on the Dashboard
 import React, { Fragment } from 'react';
 import Moment from 'react-moment';
+import { useDispatch } from 'react-redux';
+import { deleteExperience } from '../../actions/profile'
 
 const Experience = (props) => {
 
+    const dispatch = useDispatch();
     const experiences = props.experience.map(exp => (
         <tr key={exp._id}>
             <td>{exp.company}</td>
@@ -14,7 +17,7 @@ const Experience = (props) => {
                 }
             </td>
             <td>
-                <button className='btn btn-danger'>Delete </button>
+                <button onClick={() => dispatch(deleteExperience(exp._id))} className='btn btn-danger'>Delete </button>
             </td>
         </tr>
     ));

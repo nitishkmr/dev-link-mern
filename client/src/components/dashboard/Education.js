@@ -1,9 +1,12 @@
 // to display the list of Exp on the Dashboard
 import React, { Fragment } from 'react';
+import { useDispatch } from 'react-redux';
 import Moment from 'react-moment';
+import { deleteEducation } from '../../actions/profile'
 
 const Education = (props) => {
-
+    
+    const dispatch = useDispatch();
     const educations = props.education.map(edu => (
         <tr key={edu._id}>
             <td>{edu.school}</td>
@@ -14,7 +17,7 @@ const Education = (props) => {
                 }
             </td>
             <td>
-                <button className='btn btn-danger'>Delete </button>
+                <button onClick={() => dispatch(deleteEducation(edu._id))} className='btn btn-danger'>Delete </button>
             </td>
         </tr>
     ))
