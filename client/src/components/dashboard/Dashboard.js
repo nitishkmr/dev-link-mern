@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { getCurrentProfile } from '../../actions/profile';
 import Spinner from '../layout/spinner';
 import DashboardActions from './DashboardActions';
+import Experience from './Experience';
+import Education from './Education';
 
 const Dashboard = () => {
     const auth = useSelector(state => state.auth);
@@ -24,8 +26,12 @@ const Dashboard = () => {
                 <p className="lead">
                     <i className="fas fa-user" /> Welcome {auth.user && auth.user.name}
                 </p>
-                {profile.profile != null ? 
-                <Fragment> <DashboardActions /> </Fragment>
+                {profile.profile != null ?
+                    <Fragment>
+                        <DashboardActions />
+                        <Experience experience={profile.profile.experience} />
+                        <Education education={profile.profile.education} />
+                    </Fragment>
                     :
                     <Fragment>
                         <p>You have not yet setup a profile, please add some info</p>
