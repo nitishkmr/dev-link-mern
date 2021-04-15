@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';    //used to combine more than one redu
 import alert from './alert';
 import auth from './auth';
 import profile from './profile';
+import post from './post';
 
 export default combineReducers({
     /*to be combined here*/
     alert,
     auth,
-    profile
+    profile,
+    post
 });
