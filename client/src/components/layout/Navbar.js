@@ -11,21 +11,26 @@ const Navbar = () => {
   const authLinks = (
     <ul>
       <li>
+        <Link to='/profiles'>
+          Developers
+        </Link>
+      </li>
+      <li>
         <Link to='/dashboard'>
-        <i className='fas fa-user' />{' '}
-        <span className='hide-sm'>Dashboard</span>   {/*this span will allow to hide the text on smaller screens */}
+          <i className='fas fa-user' />{' '}
+          <span className='hide-sm'>Dashboard</span>   {/*this span will allow to hide the text on smaller screens */}
         </Link>
       </li>
       <li><Link to='#!' onClick={() => dispatch(logout())}> {/* and not onClick={dispatch(logout())} */}
         <i className="fas fa-sign-out-alt"></i>{' '}
-        <span className='hide-sm'>Logout</span>   
+        <span className='hide-sm'>Logout</span>
       </Link></li>
     </ul>
   );
 
   const guestLinks = (
     <ul>
-      <li><Link to="#!">Developers</Link></li>
+      <li><Link to='/profiles'>Developers</Link></li>
       <li><Link to="/register">Register</Link></li>
       <li><Link to="/login">Login</Link></li>
     </ul>

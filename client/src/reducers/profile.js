@@ -4,8 +4,8 @@ import {
     PROFILE_ERROR,
     CLEAR_PROFILE,
     UPDATE_PROFILE,
-    // GET_PROFILES,
-    // GET_REPOS,
+    GET_PROFILES,
+    GET_REPOS,
     // NO_REPOS
 } from '../actions/types';
 
@@ -21,10 +21,17 @@ function profileReducer(state = initialState, action) {
     switch (action.type) {
         case GET_PROFILE:
         case UPDATE_PROFILE:    // #### since the profile would've been changed in the backend when we made
-                                // made the axios req in action, here reducer will change the store on the client side acc.
+            // made the axios req in action, here reducer will change the store on the client side acc.
             return {
                 ...state,
                 profile: action.payload,
+                loading: false
+            };
+
+        case GET_PROFILES:
+            return {
+                ...state,
+                profiles: action.payload,
                 loading: false
             };
 
@@ -42,6 +49,13 @@ function profileReducer(state = initialState, action) {
                 profile: null,
                 repos: []
             };
+
+        case GET_REPOS:
+            return{
+                ...state,
+                repos: action.payload,
+                loading: false
+            }
 
         default:
             return state;
