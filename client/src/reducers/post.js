@@ -5,6 +5,8 @@ import {
   UPDATE_LIKES,
   ADD_POST,
   GET_POST,
+  ADD_COMMENT,
+  REMOVE_COMMENT
 } from "../actions/types";
 
 const initialState = {
@@ -61,6 +63,23 @@ function postReducer(state = initialState, action) {
         ),
         loading: false,
       };
+
+      case ADD_COMMENT:
+        return{
+          ...state,
+          post: { ...state.post, comments: payload},   // only post is being changed as this reducer will be called on the page of single page(discussion) so this much change will be enough to re-render acc to the new state.. Also, payload receives all the comments basically
+          loading: false
+        }
+
+        case REMOVE_COMMENT:
+          return{
+            ...state,
+            post: {
+              ...state.post,
+              comments: state.post.comments.filter(comment => comment._id !== payload)
+            },
+            loading: false
+          }
 
     default:
       return state;
