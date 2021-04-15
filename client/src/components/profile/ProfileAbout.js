@@ -9,14 +9,14 @@ const ProfileAbout = (props) => {
     } } = props;
 
     return (
-        <div class="profile-about bg-light p-2">
+        <div className="profile-about bg-light p-2">
             {bio && (   //show only if bio is present as it's optional
                 <Fragment>
-                    <h2 class="text-primary">{name.split(' ')[0]}s Bio</h2>
+                    <h2 className="text-primary">{name.split(' ')[0]}s Bio</h2>
                     <p>{bio}</p>
                 </Fragment>
             )}
-            <div class="line"></div>
+            <div className="line"></div>
             <h2 className='text-primary'>Skill Set</h2>
             <div className='skills'>
                 {skills.map((skill, index) => (

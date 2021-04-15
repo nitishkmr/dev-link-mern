@@ -74,8 +74,6 @@ export const getProfileById = (userId) => async dispatch => {
 
 //Get Github repos
 export const getGithubRepos = (username) => async dispatch => {
-    dispatch({ type: CLEAR_PROFILE })    // to prevent flashing of the current loaded profile
-
     try {
         const res = await axios.get(`/api/profile/github/${username}`);
         dispatch(
