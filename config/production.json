@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://nitishkmr:Nitish1211@cluster0.1pshk.mongodb.net/DevDB?retryWrites=true&w=majority?authSource=yourDB&w=1",
+  "jwtSecret": "mysecret.",
+  "githubClientId": "b46e5fefdb214eb51809",
+  "githubSecret": "12fbbbc1db48a0a98502d07c225b55e86658cdd9"
+} 
