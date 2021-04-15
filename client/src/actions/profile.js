@@ -34,8 +34,8 @@ export const getCurrentProfile = () => async dispatch => {
 
 //Get a all profiles
 export const getProfiles = () => async dispatch => {
-   dispatch({ type: CLEAR_PROFILE })    // to prevent flashing of the current loaded profile
-   
+    dispatch({ type: CLEAR_PROFILE })    // to prevent flashing of the current loaded profile
+
     try {
         const res = await axios.get('/api/profile');
         dispatch(
@@ -54,43 +54,43 @@ export const getProfiles = () => async dispatch => {
 
 //Get profile by ID
 export const getProfileById = (userId) => async dispatch => {
-    
-     try {
-         const res = await axios.get(`/api/profile/${userId}`);
-         dispatch(
-             {
-                 type: GET_PROFILE,
-                 payload: res.data
-             }
-         );
-     } catch (err) {
-         dispatch({
-             type: PROFILE_ERROR,
-             payload: { msg: err.response.statusText, status: err.response.status }
-         });
-     }
- };
+
+    try {
+        const res = await axios.get(`/api/profile/user/${userId}`);
+        dispatch(
+            {
+                type: GET_PROFILE,
+                payload: res.data
+            }
+        );
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    }
+};
 
 
- //Get Github repos
+//Get Github repos
 export const getGithubRepos = (username) => async dispatch => {
     dispatch({ type: CLEAR_PROFILE })    // to prevent flashing of the current loaded profile
-    
-     try {
-         const res = await axios.get(`/api/profile/github/${username}`);
-         dispatch(
-             {
-                 type: GET_REPOS,
-                 payload: res.data
-             }
-         );
-     } catch (err) {
-         dispatch({
-             type: PROFILE_ERROR,
-             payload: { msg: err.response.statusText, status: err.response.status }
-         });
-     }
- };
+
+    try {
+        const res = await axios.get(`/api/profile/github/${username}`);
+        dispatch(
+            {
+                type: GET_REPOS,
+                payload: res.data
+            }
+        );
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    }
+};
 
 //Create or update profile (based on edit)
 export const createProfile = (formData, history, edit = false) => async dispatch => {

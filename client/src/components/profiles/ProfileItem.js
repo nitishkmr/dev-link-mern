@@ -2,15 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ProfileItem = (props) => {
-    const {profile:{
-        user: {_id, name, avatar},
+    const { profile: {
+        user: { _id, name, avatar },
         status,
         company,
         location,
         skills
-    }} = props;
+    } } = props;
 
-    return(
+    return (
         <div className="profile bg-light">
             <img src={avatar} alt="" className="round-img" />
             <div>
@@ -22,14 +22,14 @@ const ProfileItem = (props) => {
                 </Link>
             </div>
             <ul>
-                {skills.slice(0, 4).forEach((skill, index) => {
-                    <li key={index} className="text-primary">
-                        <i className="fas fa-check"></i> {skill}
+                {skills.slice(0, 4).map((skill, index) => (
+                    <li key={index} className='text-primary'>
+                        <i className='fas fa-check' /> {skill}
                     </li>
-                })}
+                ))}
             </ul>
         </div>
     )
-} 
+}
 
 export default ProfileItem;

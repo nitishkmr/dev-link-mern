@@ -87,6 +87,7 @@ router.post('/',
         if (linkedin) profileFields.social.linkedin = linkedin;
         if (instagram) profileFields.social.instagram = instagram;
 
+        console.log(profileFields);
         try {
             let profile = await Profile.findOne({ user: req.user.id })  // user for Profile model is actually the _id which comes from the token
 
@@ -134,7 +135,7 @@ router.get('/', async (req, res) => {
 })
 
 
-// @route   GET api/profile/user/:user_id
+// @route   GET api/profile/user/:user_id 
 // @desc    Get profile by user ID
 // @access  Public
 router.get('/user/:user_id', async (req, res) => {
