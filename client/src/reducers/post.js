@@ -4,6 +4,7 @@ import {
   POST_ERROR,
   UPDATE_LIKES,
   ADD_POST,
+  GET_POST,
 } from "../actions/types";
 
 const initialState = {
@@ -24,12 +25,19 @@ function postReducer(state = initialState, action) {
         loading: false,
       };
 
+    case GET_POST:
+      return {
+        ...state,
+        post: payload,
+        loading: false,
+      };
+
     case ADD_POST:
-      return{
-        ...state,   // took all items from state as it is other than posts and loading
-        posts: [ payload, ...state.posts],   // spreaded prev posts and added post received from payload
-        loading: false
-      }
+      return {
+        ...state, // took all items from state as it is other than posts and loading
+        posts: [payload, ...state.posts], // spreaded prev posts and added post received from payload
+        loading: false,
+      };
     case DELETE_POST:
       const updatedPosts = state.posts.filter((post) => post._id !== payload);
       // console.log(updatedPosts);

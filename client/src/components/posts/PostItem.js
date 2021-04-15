@@ -21,7 +21,7 @@ const PostItem = (props) => {
         <p className="post-date">
           Posted on <Moment format="YYYY/MM/DD">{date}</Moment>
         </p>
-        {/* {showActions && ( */}
+        {props.showActions && (   // when the 'discussion' (default:true code at the end) is clicked then the buttons under this shouldn't be there
         <Fragment>
           <button
             onClick={() => dispatch(addLike(_id))}
@@ -54,10 +54,14 @@ const PostItem = (props) => {
             </button>
           )}
         </Fragment>
-        {/* )} */}
+        )}
       </div>
     </div>
   );
 };
+
+PostItem.defaultProps = {
+  showActions: true
+}
 
 export default PostItem;
