@@ -49,6 +49,7 @@ export const register = ({ name, email, password }) => async dispatch => {
             type: REGISTER_SUCCESS,
             payload: res.data
         });
+        dispatch(loadUser());
     } catch (err) {
 
         const errors = err.response.data.errors;       // from the backend, we'll get an array of errors (if any)
